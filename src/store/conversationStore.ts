@@ -165,7 +165,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
         return currentId;
     },
 
-    getConversationContext: (conversationId) => {
+    getConversationContext: (conversationId): Message[] => {
         const { conversations } = get();
         const targetConvo = conversations[conversationId];
         if (!targetConvo) return [];
@@ -177,7 +177,7 @@ export const useConversationStore = create<ConversationState>((set, get) => ({
         let currentId: string | undefined = conversationId;
 
         while (currentId) {
-            const c = conversations[currentId];
+            const c: Conversation | undefined = conversations[currentId];
             if (c) {
                 path.unshift(c);
                 currentId = c.parentId;

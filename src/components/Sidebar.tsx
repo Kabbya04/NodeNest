@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, MessageSquare, Clock, Trash2, Moon, Sun, User, Settings, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, MessageSquare, Clock, Trash2, Moon, Sun, User, Settings, LogOut } from 'lucide-react';
 import { useConversationStore } from '../store/conversationStore';
 import { useAuth } from '../hooks/useAuth';
 import { cn } from '../lib/utils';

@@ -16,7 +16,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onSelecti
     const [selectionPosition, setSelectionPosition] = useState({ x: 0, y: 0 });
     const [selectedText, setSelectedText] = useState('');
 
-    const handleMouseUp = (e: React.MouseEvent) => {
+    const handleMouseUp = () => {
         if (isUser) return; // Only allow selecting AI responses
 
         const selection = window.getSelection();
