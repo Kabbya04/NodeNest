@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, getRedirectUrl } from '../lib/supabase';
 import { Mail, Lock, Sparkles, ArrowRight } from 'lucide-react';
 
 interface AuthProps {
@@ -37,8 +37,17 @@ export const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
 
     const handleGoogleAuth = async () => {
         try {
+            // Get the current base URL (works for both localhost and deployed)
+            const redirectUrl = getRedirectUrl();
+
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
+                options: {
+                    // Redirect back to the current origin (localhost or deployed URL)
+                    redirectTo: redirectUrl,
+                    // Use PKCE flow for better security
+                    skipBrowserRedirect: false,
+                },
             });
             if (error) throw error;
         } catch (err: any) {

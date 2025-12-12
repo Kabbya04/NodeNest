@@ -63,12 +63,23 @@ A general-purpose chatbot with specialized sub-conversation branching features. 
    # Run it in the Supabase SQL Editor
    ```
 
+5. **Configure OAuth (Google Sign-In)**
+   
+   Follow the detailed instructions in [OAUTH_SETUP.md](./OAUTH_SETUP.md) to configure:
+   - Supabase redirect URLs
+   - Google Cloud Console OAuth settings
+   
+   This is required for Google authentication to work correctly in both development and production.
+
+6. **Start the development server**
+   ```bash
    npm run dev
    ```
 
-6. **Access the application**
+7. **Access the application**
    
    Open your browser and navigate to `http://localhost:5173`
+
 
 ## Project Structure
 
