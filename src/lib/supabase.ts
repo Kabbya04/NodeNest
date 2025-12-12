@@ -13,5 +13,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 // Helper function to get the current base URL for OAuth redirects
 export const getRedirectUrl = () => {
-    return window.location.origin;
+    // Use a specific env var for the redirect URL if it exists, otherwise default to the current origin
+    return import.meta.env.VITE_REDIRECT_URL || window.location.origin;
 };
