@@ -13,6 +13,10 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 // Helper function to get the current base URL for OAuth redirects
 export const getRedirectUrl = () => {
-    // Use a specific env var for the redirect URL if it exists, otherwise default to the current origin
+    // In production, the redirect URL is determined by the deployment's origin.
+    // In development, it falls back to the VITE_REDIRECT_URL from your .env file.
+    if (import.meta.env.PROD) {
+        return window.location.origin;
+    }
     return import.meta.env.VITE_REDIRECT_URL || window.location.origin;
 };
