@@ -7,16 +7,35 @@ export const useAuth = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const cleanUrl = () => {
+            const url = new URL(window.location.href);
+            let cleaned = false;
+
+            // Clear hash if it contains auth info (Implicit flow / Recovery)
+            if (url.hash && (url.hash.includes('access_token') || url.hash.includes('refresh_token') || url.hash.includes('type=recovery'))) {
+                url.hash = '';
+                cleaned = true;
+            }
+
+            // Clear query params used for auth (PKCE flow code, errors)
+            const paramsToClear = ['code', 'error', 'error_description', 'error_code'];
+            paramsToClear.forEach(param => {
+                if (url.searchParams.has(param)) {
+                    url.searchParams.delete(param);
+                    cleaned = true;
+                }
+            });
+
+            if (cleaned) {
+                window.history.replaceState(null, '', url.toString());
+            }
+        };
+
         // Get initial session
         supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
             setLoading(false);
-
-            // Clean up URL hash after OAuth redirect to remove exposed tokens
-            if (window.location.hash && window.location.hash.includes('access_token')) {
-                // Replace the URL without the hash to prevent token exposure
-                window.history.replaceState(null, '', window.location.pathname);
-            }
+            cleanUrl();
         });
 
         // Listen for auth changes
@@ -24,11 +43,8 @@ export const useAuth = () => {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
-
-            // Clean up URL hash after auth state changes
-            if (window.location.hash && window.location.hash.includes('access_token')) {
-                window.history.replaceState(null, '', window.location.pathname);
-            }
+            setLoading(false); // Make sure loading is false
+            cleanUrl();
         });
 
         return () => subscription.unsubscribe();
