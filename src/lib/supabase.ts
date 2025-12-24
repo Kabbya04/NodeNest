@@ -13,20 +13,20 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 // Helper function to get the current base URL for OAuth redirects
 export const getRedirectUrl = () => {
-    let redirectUrl = import.meta.env.VITE_REDIRECT_URL;
-
-    // In production, prevent using localhost if it was explicitly set in environment variables
-    // This fixes the issue where a production deployment redirects to localhost because 
-    // the VITE_REDIRECT_URL env var was copied from dev to prod.
-    if (import.meta.env.PROD && redirectUrl?.includes('localhost')) {
-        redirectUrl = null;
+    // In production, ALWAYS use runtime detection (window.location.origin)
+    // This ensures the redirect URL is correct regardless of build-time env vars
+    // Vite env vars are embedded at build time, so if VITE_REDIRECT_URL was set to
+    // localhost during build, it would be hardcoded in the production bundle
+    if (import.meta.env.PROD) {
+        return window.location.origin;
     }
 
-    // Check if redirectUrl is a non-empty string
+    // In development, use env var if set, otherwise fall back to current origin
+    const redirectUrl = import.meta.env.VITE_REDIRECT_URL;
     if (redirectUrl && redirectUrl.trim() !== '') {
         return redirectUrl;
     }
 
-    // Default to the current origin (e.g., https://my-app.vercel.app)
+    // Default to the current origin (e.g., http://localhost:3000)
     return window.location.origin;
 };
