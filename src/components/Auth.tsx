@@ -43,8 +43,8 @@ export const Auth: React.FC<AuthProps> = ({ onAuthSuccess }) => {
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    // Redirect back to the current origin (localhost or deployed URL)
-                    redirectTo: redirectUrl,
+                    // Redirect back to the current origin (localhost or deployed URL) with callback path
+                    redirectTo: `${redirectUrl.replace(/\/$/, '')}/auth/callback`,
                     // Use PKCE flow for better security
                     skipBrowserRedirect: false,
                 },

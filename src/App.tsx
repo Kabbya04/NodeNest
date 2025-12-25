@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthCallback } from './components/AuthCallback';
 import { useConversationStore } from './store/conversationStore';
 import { ChatWindow } from './components/ChatWindow';
 import { ConversationTabs } from './components/ConversationTabs';
@@ -47,65 +49,71 @@ function App() {
     );
   }
 
-  if (!user && !isAuthenticated) {
-    return <Auth onAuthSuccess={() => setIsAuthenticated(true)} />;
-  }
-
   return (
-    <div className="flex flex-col h-screen w-full bg-background text-foreground overflow-hidden">
-      {/* Main Content */}
-      <div className="flex-1 flex min-h-0">
-        {/* Sidebar */}
-        <Sidebar onToggleTheme={() => setIsDark(!isDark)} isDark={isDark} />
+    <Routes>
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/" element={
+        (!user && !isAuthenticated) ? (
+          <Auth onAuthSuccess={() => setIsAuthenticated(true)} />
+        ) : (
+          <div className="flex flex-col h-screen w-full bg-background text-foreground overflow-hidden">
+            {/* Main Content */}
+            <div className="flex-1 flex min-h-0">
+              {/* Sidebar */}
+              <Sidebar onToggleTheme={() => setIsDark(!isDark)} isDark={isDark} />
 
-        {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col min-w-0">
-          {/* View Toggle & Tabs */}
-          <div className="border-b border-border bg-background">
-            <div className="flex items-center justify-between px-4 py-2">
-              {/* Tabs for sub-conversations */}
-              <div className="flex-1 min-w-0">
-                <ConversationTabs />
-              </div>
+              {/* Main Chat Area */}
+              <div className="flex-1 flex flex-col min-w-0">
+                {/* View Toggle & Tabs */}
+                <div className="border-b border-border bg-background">
+                  <div className="flex items-center justify-between px-4 py-2">
+                    {/* Tabs for sub-conversations */}
+                    <div className="flex-1 min-w-0">
+                      <ConversationTabs />
+                    </div>
 
-              {/* View Mode Toggle */}
-              <div className="flex items-center gap-1 ml-4 bg-secondary rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('chat')}
-                  className={cn(
-                    "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
-                    viewMode === 'chat'
-                      ? "bg-background shadow-sm text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  Chat
-                </button>
-                <button
-                  onClick={() => setViewMode('graph')}
-                  className={cn(
-                    "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
-                    viewMode === 'graph'
-                      ? "bg-background shadow-sm text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <GitGraph className="w-4 h-4" />
-                  Graph
-                </button>
-                <ModelSelector />
+                    {/* View Mode Toggle */}
+                    <div className="flex items-center gap-1 ml-4 bg-secondary rounded-lg p-1">
+                      <button
+                        onClick={() => setViewMode('chat')}
+                        className={cn(
+                          "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
+                          viewMode === 'chat'
+                            ? "bg-background shadow-sm text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        Chat
+                      </button>
+                      <button
+                        onClick={() => setViewMode('graph')}
+                        className={cn(
+                          "px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2",
+                          viewMode === 'graph'
+                            ? "bg-background shadow-sm text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        <GitGraph className="w-4 h-4" />
+                        Graph
+                      </button>
+                      <ModelSelector />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content Area */}
+                <div className="flex-1 min-h-0">
+                  {viewMode === 'chat' ? <ChatWindow /> : <ConversationGraph />}
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Content Area */}
-          <div className="flex-1 min-h-0">
-            {viewMode === 'chat' ? <ChatWindow /> : <ConversationGraph />}
-          </div>
-        </div>
-      </div>
-    </div>
+        )
+      } />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

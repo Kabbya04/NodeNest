@@ -12,11 +12,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 });
 
 // Helper function to get the current base URL for OAuth redirects
+// Helper function to get the current base URL for OAuth redirects
 export const getRedirectUrl = () => {
-    // Check for VITE_REDIRECT_URL key in environment variables first
-    const redirectUrl = import.meta.env.VITE_REDIRECT_URL;
-    if (redirectUrl && redirectUrl.trim() !== '') {
-        return redirectUrl;
+    // Check for VITE_SITE_URL or VITE_REDIRECT_URL in environment variables
+    const siteUrl = import.meta.env.VITE_SITE_URL || import.meta.env.VITE_REDIRECT_URL;
+
+    if (siteUrl && siteUrl.trim() !== '') {
+        return siteUrl;
     }
 
     // Fallback to the current origin (e.g., window.location.origin)
