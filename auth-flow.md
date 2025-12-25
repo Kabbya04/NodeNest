@@ -23,6 +23,22 @@ The application determines the base URL using the following priority:
 - **Flow Type**: PKCE (`pkce`) is enabled in the Supabase client configuration.
 - **Redirect URLs**: The Supabase project must be configured to allow the callback URL: `${BASE_URL}/auth/callback`.
 
+### Hosting Configuration (SPA Routing)
+Since NodeNest is a Single Page Application (SPA), all routing is handled client-side. To support deep links like `/auth/callback` on static hosts (e.g., Vercel), a rewrite rule is required to direct all traffic to `index.html`.
+
+**`vercel.json`**:
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
+Without this, navigating directly to `/auth/callback` would result in a 404 error because the physical file does not exist on the server.
+
 ## Authentication Flow
 
 ### 1. Initiation

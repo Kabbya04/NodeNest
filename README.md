@@ -52,7 +52,8 @@ A general-purpose chatbot with specialized sub-conversation branching features. 
    ```env
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   VITE_GROQ_API_KEY=your_groq_api_key
+   GROQ_API_KEY=your_groq_api_key
+   VITE_SITE_URL=http://localhost:5173 
    ```
 
 4. **Set up Supabase database**
@@ -65,11 +66,12 @@ A general-purpose chatbot with specialized sub-conversation branching features. 
 
 5. **Configure OAuth (Google Sign-In)**
    
-   Follow the detailed instructions in [OAUTH_SETUP.md](./OAUTH_SETUP.md) to configure:
-   - Supabase redirect URLs
-   - Google Cloud Console OAuth settings
+   The authentication system uses Supabase Auth with PKCE flow.
    
-   This is required for Google authentication to work correctly in both development and production.
+   - **Redirect URL Configuration**: 
+     Ensure your Supabase project allows the callback URL: `${VITE_SITE_URL}/auth/callback`.
+   - **Documentation**:
+     For a detailed explanation of the authentication flow and configuration, please refer to [auth-flow.md](./auth-flow.md).
 
 6. **Start the development server**
    ```bash
