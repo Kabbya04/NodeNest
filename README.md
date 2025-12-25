@@ -168,9 +168,6 @@ The application supports the following models from Groq Cloud:
 - [ ] Conversation search
 - [ ] Dark mode toggle
 
-## License
-
-MIT
 
 ## Contributing
 
