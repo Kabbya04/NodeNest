@@ -1,5 +1,14 @@
 # Node Nest
 
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-433E38?style=for-the-badge&logo=react&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel_AI_SDK-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq_Cloud-FF6B00?style=for-the-badge&logo=ai&logoColor=white)
+
 A general-purpose chatbot with specialized sub-conversation branching features. Built with React, Vite, Tailwind CSS, Vercel AI SDK, and Supabase.
 
 ## Features
@@ -53,7 +62,7 @@ A general-purpose chatbot with specialized sub-conversation branching features. 
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    GROQ_API_KEY=your_groq_api_key
-   VITE_SITE_URL=http://localhost:5173 
+   VITE_SITE_URL=http://localhost:3000 
    ```
 
 4. **Set up Supabase database**
@@ -133,18 +142,18 @@ node-nest/
 
 - Click the Settings icon in the sidebar
 - Select from the available Groq models:
-  - llama3-8b-8192
-  - llama3-70b-8192
-  - mixtral-8x7b-32768
-  - gemma-7b-it
+   - openai/gpt-oss-120b
+   - openai/gpt-oss-20b
+   - llama-3.3-70b-versatile
+   - llama-3.1-8b-instant
 
 ## Available Models (Groq Cloud)
 
 The application supports the following models from Groq Cloud:
-- **llama3-8b-8192**: Fast, efficient model for general tasks
-- **llama3-70b-8192**: Larger model for complex reasoning
-- **mixtral-8x7b-32768**: Mixture of experts model with large context
-- **gemma-7b-it**: Google's instruction-tuned model
+- **openai/gpt-oss-120b**: Large-scale GPT model optimized for complex reasoning and comprehensive responses
+- **openai/gpt-oss-20b**: Medium-sized GPT model balancing performance and efficiency
+- **llama-3.3-70b-versatile**: Meta's versatile Llama model for diverse tasks
+- **llama-3.1-8b-instant**: Fast, efficient Llama model for quick responses
 
 ## Development
 
